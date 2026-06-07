@@ -3,8 +3,8 @@ import type { ArticleBlock, BlockType } from "../types";
 const dividerPattern = /^(\*{3,}|-{3,}|_{3,}|—{2,}|={3,})$/;
 const orderedListPattern = /^(\d+)[.)、]\s+(.+)$/;
 const unorderedListPattern = /^[-*+]\s+(.+)$/;
-const imagePattern = /^!\[(.*?)\]\((https?:\/\/[^\s)]+)\)$/;
-const imageUrlPattern = /^(https?:\/\/[^\s]+\.(?:png|jpe?g|gif|webp|svg)(?:\?[^\s]+)?)$/i;
+const imagePattern = /^!\[(.*?)\]\(((?:https?:\/\/|data:image\/)[^\s)]+)\)$/;
+const imageUrlPattern = /^((?:https?:\/\/[^\s]+\.(?:png|jpe?g|gif|webp|svg)(?:\?[^\s]+)?)|(?:data:image\/[a-zA-Z+.-]+;base64,[A-Za-z0-9+/=]+))$/i;
 const subheadingPattern = /^([一二三四五六七八九十]+[、.．]|第[一二三四五六七八九十\d]+[章节]|[（(]\d+[）)]|0?\d+[、.．])\s*(.+)$/;
 const emphasisLeadPattern = /^(重点|金句|提醒|注意|结论|核心|建议|划重点)[:：]/;
 

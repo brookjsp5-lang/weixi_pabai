@@ -1,5 +1,7 @@
 import { StrictMode, useEffect, useMemo, useState } from "react";
+import type { ClipboardEvent } from "react";
 import { createRoot } from "react-dom/client";
+import { convertClipboardHtmlToMarkdown, hasStructuredClipboardHtml } from "./lib/clipboardImport";
 import { copyRichText } from "./lib/copyRichText";
 import { parseArticle } from "./lib/parseArticle";
 import { blocksToPlainText, renderWechatHtml } from "./lib/renderWechatHtml";
@@ -124,6 +126,21 @@ function TypeSelect({
   );
 }
 
+function insertIntoText(value: string, insertText: string, start: number, end: number) {
+  const spacerBefore = start > 0 && !value.slice(0, start).endsWith("\n") ? "\n\n" : "";
+  const spacerAfter = end < value.length && !value.slice(end).startsWith("\n") ? "\n\n" : "";
+  return `${value.slice(0, start)}${spacerBefore}${insertText}${spacerAfter}${value.slice(end)}`;
+}
+
+function readImageFile(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 function App() {
   const [draft, setDraft] = usePersistentState(storageKeys.draft, sampleArticle);
   const [templateId, setTemplateId] = usePersistentState(storageKeys.template, defaultTemplate.id);
@@ -142,6 +159,31 @@ function App() {
 
   const updateBlockType = (block: ArticleBlock, type: BlockType) => {
     setOverrides((current) => ({ ...current, [block.id]: type }));
+  };
+
+  const handlePaste = async (event: ClipboardEvent<HTMLTextAreaElement>) => {
+    const textarea = event.currentTarget;
+    const html = event.clipboardData.getData("text/html");
+    const imageFiles = Array.from(event.clipboardData.files).filter((file) => file.type.startsWith("image/"));
+
+    if (html && hasStructuredClipboardHtml(html)) {
+      event.preventDefault();
+      const converted = convertClipboardHtmlToMarkdown(html);
+      const nextDraft = insertIntoText(draft, converted, textarea.selectionStart, textarea.selectionEnd);
+      setDraft(nextDraft);
+      return;
+    }
+
+    if (imageFiles.length > 0) {
+      event.preventDefault();
+      const imageMarkdown = (
+        await Promise.all(
+          imageFiles.map(async (file, index) => `![粘贴图片${index + 1}](${await readImageFile(file)})`)
+        )
+      ).join("\n\n");
+      const nextDraft = insertIntoText(draft, imageMarkdown, textarea.selectionStart, textarea.selectionEnd);
+      setDraft(nextDraft);
+    }
   };
 
   const handleCopy = async () => {
@@ -179,8 +221,9 @@ function App() {
             className="articleInput"
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
+            onPaste={handlePaste}
             spellCheck={false}
-            placeholder="在这里粘贴公众号文章初稿，支持 # 标题、> 引用、- 列表、**重点句**。"
+            placeholder="在这里粘贴公众号文章初稿，支持富文本表格、代码块、图片，也支持 # 标题、> 引用、- 列表、**重点句**。"
           />
         </section>
 
