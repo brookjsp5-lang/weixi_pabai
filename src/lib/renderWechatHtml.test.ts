@@ -13,8 +13,8 @@ const blocks: ArticleBlock[] = [
 ];
 
 describe("renderWechatHtml", () => {
-  it("10套模板都生成微信可复制的内联样式HTML", () => {
-    expect(templates).toHaveLength(10);
+  it("所有模板都生成微信可复制的内联样式HTML", () => {
+    expect(templates).toHaveLength(11);
 
     for (const template of templates) {
       const html = renderWechatHtml(blocks, template);
@@ -34,5 +34,16 @@ describe("renderWechatHtml", () => {
 
     expect(html).toContain("border-left");
     expect(html).toContain("正文内容");
+  });
+
+  it("蓝紫教程模板保留目标文章的教程排版特征", () => {
+    const template = templates.find((item) => item.id === "blue-purple-tutorial");
+    expect(template).toBeDefined();
+
+    const html = renderWechatHtml(blocks, template!);
+    expect(html).toContain("linear-gradient(90deg,#002fa7,#7268d5)");
+    expect(html).toContain("Noto Serif SC");
+    expect(html).toContain("letter-spacing:0.1em");
+    expect(html).toContain("rgba(0,47,167,0.08)");
   });
 });

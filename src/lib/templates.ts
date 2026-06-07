@@ -13,6 +13,8 @@ function blockStyles(accent: string, text: string, muted: string, surface: strin
 }
 
 const baseContainer = "box-sizing:border-box;width:100%;max-width:677px;margin:0 auto;padding:26px 22px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;";
+const tutorialSerifHeading = "font-family:'Noto Serif SC','Noto Serif CJK SC','Source Han Serif CN','Source Han Serif SC','Songti SC',STSong,serif;";
+const tutorialBodyFont = "font-family:Optima-Regular,Optima,PingFangSC-regular,PingFangTC-regular,'PingFang SC',Cambria,Cochin,Georgia,Times,'Times New Roman',serif;";
 
 export const templates: StyleTemplate[] = [
   {
@@ -114,6 +116,24 @@ export const templates: StyleTemplate[] = [
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#16a34a", "#173421", "#52675a", "#f0fdf4"),
     listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#173421;"
+  },
+  {
+    id: "blue-purple-tutorial",
+    name: "蓝紫教程",
+    scenario: "逆向自目标文章，适合工具教程、上手指南、技术说明",
+    accent: "#002fa7",
+    previewBackground: "#f6f7f9",
+    containerStyle: `${baseContainer}background:#ffffff;padding:28px 24px;`,
+    blockStyles: {
+      heading: `margin:0 0 24px;padding:0 0 12px;${tutorialSerifHeading}font-size:24px;line-height:1.45;font-weight:700;color:#1c1c1c;text-align:right;letter-spacing:0.04em;border-bottom:3px solid #002fa7;`,
+      subheading: `margin:30px 0 14px;padding:0 0 9px;${tutorialSerifHeading}font-size:22px;line-height:1.5;font-weight:700;color:#1c1c1c;text-align:right;letter-spacing:0.04em;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#002fa7,#7268d5) 1;`,
+      paragraph: `margin:5px 0;${tutorialBodyFont}font-size:15px;line-height:26px;color:#3d3d3a;letter-spacing:0.1em;text-align:left;white-space:pre-line;`,
+      quote: `margin:14px 0;padding:8px 0 8px 14px;border-left:3px solid #7268d5;background:#ffffff;${tutorialBodyFont}font-size:15px;line-height:26px;color:#3c3c3c;letter-spacing:0.08em;`,
+      list: `margin:10px 0 12px;padding:0;color:#3d3d3a;`,
+      divider: `margin:24px 0 20px auto;border:0;width:32px;height:3px;background:linear-gradient(90deg,#002fa7,#7268d5);border-radius:2px;`,
+      emphasis: `margin:14px 0;padding:12px 14px;background:rgba(0,47,167,0.08);border:1px solid rgba(0,47,167,0.16);border-radius:6px;${tutorialBodyFont}font-size:15px;line-height:26px;font-weight:600;color:#002fa7;letter-spacing:0.08em;`
+    },
+    listItemStyle: `margin:7px 0 7px 20px;${tutorialBodyFont}font-size:15px;line-height:26px;color:#3d3d3a;letter-spacing:0.1em;`
   }
 ];
 
