@@ -1,0 +1,337 @@
+:root {
+  color: #1f2937;
+  background: #eef2f3;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.appShell {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 auto 16px;
+  max-width: 1760px;
+}
+
+.topBar h1 {
+  margin: 0 0 5px;
+  color: #10201d;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.topBar p {
+  margin: 0;
+  color: #64706d;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.95fr) minmax(300px, 1fr) minmax(360px, 1.35fr);
+  gap: 14px;
+  max-width: 1760px;
+  margin: 0 auto;
+  height: calc(100vh - 98px);
+  min-height: 660px;
+}
+
+.panel {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #dbe3e1;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 64px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e6ecea;
+  background: #fbfdfc;
+}
+
+.panelHeader h2 {
+  margin: 0 0 4px;
+  color: #17201e;
+  font-size: 15px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.panelHeader span {
+  color: #73807d;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.ghostButton,
+.copyButton {
+  border: 1px solid #cbd8d5;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #23413b;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+  padding: 10px 13px;
+}
+
+.ghostButton:hover {
+  background: #f4f8f7;
+}
+
+.ghostButton.compact {
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+.copyButton {
+  border-color: #0f766e;
+  background: #0f766e;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.copyButton:hover {
+  background: #0d665f;
+}
+
+.articleInput {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  resize: none;
+  border: 0;
+  outline: none;
+  padding: 18px;
+  color: #1f2937;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.articleInput::placeholder {
+  color: #97a39f;
+}
+
+.blockList {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+}
+
+.blockRow {
+  border: 1px solid #e2e9e7;
+  border-radius: 8px;
+  padding: 11px;
+  background: #ffffff;
+}
+
+.blockRow + .blockRow {
+  margin-top: 10px;
+}
+
+.blockMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.blockIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: #edf8f6;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.typeSelect {
+  min-width: 104px;
+  height: 30px;
+  border: 1px solid #cbd8d5;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #263532;
+  font-size: 13px;
+  padding: 0 8px;
+}
+
+.blockText {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #52615d;
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  border: 1px dashed #cbd8d5;
+  border-radius: 8px;
+  color: #73807d;
+  text-align: center;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid #e6ecea;
+  background: #fbfdfc;
+}
+
+.templateButton {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  row-gap: 2px;
+  min-height: 58px;
+  border: 1px solid #dce6e3;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 9px;
+  text-align: left;
+}
+
+.templateButton.selected {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.12);
+}
+
+.templateSwatch {
+  grid-row: 1 / span 2;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  border-radius: 50%;
+}
+
+.templateButton strong {
+  color: #182420;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.templateButton small {
+  display: block;
+  overflow: hidden;
+  color: #6b7774;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.phoneCanvas {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 22px;
+}
+
+.wechatPreview {
+  max-width: 677px;
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
+}
+
+@media (max-width: 1180px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+  }
+
+  .panel {
+    min-height: 460px;
+  }
+
+  .previewPanel {
+    min-height: 720px;
+  }
+}
+
+@media (max-width: 720px) {
+  .appShell {
+    padding: 12px;
+  }
+
+  .topBar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topBar h1 {
+    font-size: 21px;
+  }
+
+  .templateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .panelHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .copyButton,
+  .ghostButton {
+    width: 100%;
+  }
+}
