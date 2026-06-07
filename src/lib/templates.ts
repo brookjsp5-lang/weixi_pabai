@@ -8,13 +8,19 @@ function blockStyles(accent: string, text: string, muted: string, surface: strin
     quote: `margin:18px 0;padding:14px 16px;border-left:4px solid ${accent};background:${surface};font-size:15px;line-height:1.85;color:${muted};`,
     list: `margin:16px 0;padding:0;color:${text};`,
     divider: `margin:28px auto;border:0;border-top:1px solid ${accent};width:64px;height:1px;`,
-    emphasis: `margin:18px 0;padding:13px 15px;background:${surface};border:1px solid ${accent};font-size:16px;line-height:1.8;font-weight:700;color:${text};`
+    emphasis: `margin:18px 0;padding:13px 15px;background:${surface};border:1px solid ${accent};font-size:16px;line-height:1.8;font-weight:700;color:${text};`,
+    table: `width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;line-height:1.65;color:${text};`,
+    code: `margin:18px 0;padding:14px 16px;background:#f6f8fa;border:1px solid #d8dee4;border-radius:6px;font-size:13px;line-height:1.7;color:${text};white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;`,
+    image: `margin:18px 0;text-align:center;`
   };
 }
 
 const baseContainer = "box-sizing:border-box;width:100%;max-width:677px;margin:0 auto;padding:26px 22px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;";
 const tutorialSerifHeading = "font-family:'Noto Serif SC','Noto Serif CJK SC','Source Han Serif CN','Source Han Serif SC','Songti SC',STSong,serif;";
 const tutorialBodyFont = "font-family:Optima-Regular,Optima,PingFangSC-regular,PingFangTC-regular,'PingFang SC',Cambria,Cochin,Georgia,Times,'Times New Roman',serif;";
+const defaultTableHeaderStyle = "padding:10px 12px;border:1px solid #d8dee4;background:#f6f8fa;font-size:14px;line-height:1.6;font-weight:700;text-align:left;color:#1f2937;";
+const defaultTableCellStyle = "padding:10px 12px;border:1px solid #d8dee4;background:#ffffff;font-size:14px;line-height:1.65;text-align:left;color:#1f2937;";
+const defaultImageStyle = "max-width:100%;height:auto;display:block;margin:0 auto;border-radius:8px;";
 
 export const templates: StyleTemplate[] = [
   {
@@ -25,7 +31,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#ffffff",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#0f766e", "#1f2937", "#4b5563", "#ecfdf5"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.85;color:#1f2937;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.85;color:#1f2937;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#0f766e", "#1f2937", "#4b5563", "#ecfdf5").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "knowledge",
@@ -35,7 +45,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#f8fbff",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#2563eb", "#172033", "#526071", "#eff6ff"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.85;color:#172033;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.85;color:#172033;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#2563eb", "#172033", "#526071", "#eff6ff").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "healing",
@@ -45,7 +59,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#fff7fb",
     containerStyle: `${baseContainer}background:#fffefe;`,
     blockStyles: blockStyles("#db2777", "#3f2434", "#75586a", "#fdf2f8"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.9;color:#3f2434;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.9;color:#3f2434;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#db2777", "#3f2434", "#75586a", "#fdf2f8").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "premium-brand",
@@ -55,7 +73,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#f7f7f5",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#111827", "#111827", "#52525b", "#f4f4f5"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.86;color:#111827;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.86;color:#111827;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#111827", "#111827", "#52525b", "#f4f4f5").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "news",
@@ -65,7 +87,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#fffafa",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#dc2626", "#222222", "#5f6368", "#fef2f2"),
-    listItemStyle: "margin:7px 0 7px 20px;font-size:16px;line-height:1.82;color:#222222;"
+    listItemStyle: "margin:7px 0 7px 20px;font-size:16px;line-height:1.82;color:#222222;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#dc2626", "#222222", "#5f6368", "#fef2f2").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "minimal-mono",
@@ -75,7 +101,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#ffffff",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#111111", "#111111", "#555555", "#f6f6f6"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.9;color:#111111;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.9;color:#111111;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#111111", "#111111", "#555555", "#f6f6f6").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "youth",
@@ -85,7 +115,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#fff9f1",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#f97316", "#2b2118", "#68513e", "#fff7ed"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#2b2118;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#2b2118;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#f97316", "#2b2118", "#68513e", "#fff7ed").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "reading-notes",
@@ -95,7 +129,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#fbfaff",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#7c3aed", "#282033", "#675c72", "#f5f3ff"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.88;color:#282033;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.88;color:#282033;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#7c3aed", "#282033", "#675c72", "#f5f3ff").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "course",
@@ -105,7 +143,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#f1fbfd",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#0891b2", "#16333b", "#526a70", "#ecfeff"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#16333b;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#16333b;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#0891b2", "#16333b", "#526a70", "#ecfeff").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "community",
@@ -115,7 +157,11 @@ export const templates: StyleTemplate[] = [
     previewBackground: "#f5fff8",
     containerStyle: `${baseContainer}background:#ffffff;`,
     blockStyles: blockStyles("#16a34a", "#173421", "#52675a", "#f0fdf4"),
-    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#173421;"
+    listItemStyle: "margin:8px 0 8px 20px;font-size:16px;line-height:1.84;color:#173421;",
+    tableHeaderStyle: defaultTableHeaderStyle,
+    tableCellStyle: defaultTableCellStyle,
+    codeStyle: blockStyles("#16a34a", "#173421", "#52675a", "#f0fdf4").code,
+    imageStyle: defaultImageStyle
   },
   {
     id: "blue-purple-tutorial",
@@ -131,9 +177,16 @@ export const templates: StyleTemplate[] = [
       quote: `margin:14px 0;padding:8px 0 8px 14px;border-left:3px solid #7268d5;background:#ffffff;${tutorialBodyFont}font-size:15px;line-height:26px;color:#3c3c3c;letter-spacing:0.08em;`,
       list: `margin:10px 0 12px;padding:0;color:#3d3d3a;`,
       divider: `margin:24px 0 20px auto;border:0;width:32px;height:3px;background:linear-gradient(90deg,#002fa7,#7268d5);border-radius:2px;`,
-      emphasis: `margin:14px 0;padding:12px 14px;background:rgba(0,47,167,0.08);border:1px solid rgba(0,47,167,0.16);border-radius:6px;${tutorialBodyFont}font-size:15px;line-height:26px;font-weight:600;color:#002fa7;letter-spacing:0.08em;`
+      emphasis: `margin:14px 0;padding:12px 14px;background:rgba(0,47,167,0.08);border:1px solid rgba(0,47,167,0.16);border-radius:6px;${tutorialBodyFont}font-size:15px;line-height:26px;font-weight:600;color:#002fa7;letter-spacing:0.08em;`,
+      table: `width:100%;border-collapse:collapse;margin:18px 0;${tutorialBodyFont}font-size:14px;line-height:1.65;color:#3d3d3a;letter-spacing:0.04em;`,
+      code: `margin:18px 0;padding:12px 14px;background:rgba(0,47,167,0.08);border:1px solid rgba(0,47,167,0.16);border-radius:6px;font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;line-height:1.75;color:#002fa7;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;`,
+      image: `margin:18px 0;text-align:center;`
     },
-    listItemStyle: `margin:7px 0 7px 20px;${tutorialBodyFont}font-size:15px;line-height:26px;color:#3d3d3a;letter-spacing:0.1em;`
+    listItemStyle: `margin:7px 0 7px 20px;${tutorialBodyFont}font-size:15px;line-height:26px;color:#3d3d3a;letter-spacing:0.1em;`,
+    tableHeaderStyle: "padding:10px 12px;border:1px solid #dcdce1;background:rgba(0,47,167,0.08);font-size:14px;line-height:1.65;font-weight:700;text-align:left;color:#1c1c1c;",
+    tableCellStyle: "padding:10px 12px;border:1px solid #dcdce1;background:#ffffff;font-size:14px;line-height:1.65;text-align:left;color:#3d3d3a;",
+    codeStyle: `margin:18px 0;padding:12px 14px;background:rgba(0,47,167,0.08);border:1px solid rgba(0,47,167,0.16);border-radius:6px;font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;line-height:1.75;color:#002fa7;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;`,
+    imageStyle: "max-width:100%;height:auto;display:block;margin:0 auto;border-radius:10px;"
   }
 ];
 

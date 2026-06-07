@@ -26,6 +26,19 @@ const sampleArticle = `# 公众号排版效率提升指南
 - 引用负责突出观点
 - 列表负责降低阅读负担
 
+| 模块 | 用途 | 适合 |
+| --- | --- | --- |
+| 表格 | 对比信息 | 参数说明 |
+| 代码块 | 展示命令 | 技术教程 |
+
+\`\`\`
+.agents/
+└── skills/
+    └── weekly-report/
+\`\`\`
+
+![示例图片](https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop)
+
 **重点：稳定的样式比复杂的装饰更重要。**
 
 ---
@@ -39,7 +52,10 @@ const blockTypeLabels: Record<BlockType, string> = {
   quote: "引用",
   list: "列表",
   divider: "分割线",
-  emphasis: "重点句"
+  emphasis: "重点句",
+  table: "表格",
+  code: "代码块",
+  image: "图片"
 };
 
 function loadOverrides(): Record<string, BlockType> {
@@ -63,7 +79,11 @@ function applyOverrides(blocks: ArticleBlock[], overrides: Record<string, BlockT
               .split("\n")
               .map((item) => item.trim())
               .filter(Boolean)
-          : block.items
+          : block.items,
+      headers: overriddenType === "table" ? block.headers ?? ["内容"] : block.headers,
+      rows: overriddenType === "table" ? block.rows ?? [[block.content]] : block.rows,
+      src: overriddenType === "image" ? block.src ?? block.content : block.src,
+      alt: overriddenType === "image" ? block.alt ?? block.content : block.alt
     };
   });
 }

@@ -44,4 +44,28 @@ describe("parseArticle", () => {
     expect(blocks[0].type).toBe("heading");
     expect(blocks[1].type).toBe("paragraph");
   });
+
+  it("识别Markdown表格、代码块和图片", () => {
+    const blocks = parseArticle(`| 层级 | 路径 | 适合 |
+| --- | --- | --- |
+| 当前仓库 | <项目根>/.agents/skills/ | 团队共享 |
+| 当前目录 | $CWD/.agents/skills/ | 临时用 |
+
+\`\`\`
+.agents/
+└── skills/
+    └── weekly-report/
+\`\`\`
+
+![目录结构](https://example.com/tree.png)`);
+
+    expect(blocks.map((block) => block.type)).toEqual(["table", "code", "image"]);
+    expect(blocks[0].rows).toEqual([
+      ["当前仓库", "<项目根>/.agents/skills/", "团队共享"],
+      ["当前目录", "$CWD/.agents/skills/", "临时用"]
+    ]);
+    expect(blocks[1].content).toContain(".agents/");
+    expect(blocks[2].src).toBe("https://example.com/tree.png");
+    expect(blocks[2].alt).toBe("目录结构");
+  });
 });
