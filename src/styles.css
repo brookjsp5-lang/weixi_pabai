@@ -124,6 +124,12 @@ button {
   white-space: nowrap;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .copyButton {
   border-color: #0f766e;
   background: #0f766e;
@@ -333,5 +339,10 @@ button {
   .copyButton,
   .ghostButton {
     width: 100%;
+  }
+
+  .headerActions {
+    width: 100%;
+    flex-direction: column;
   }
 }

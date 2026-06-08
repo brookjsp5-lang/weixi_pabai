@@ -4,6 +4,8 @@ import { createRoot } from "react-dom/client";
 import { convertClipboardHtmlToMarkdown, hasStructuredClipboardHtml } from "./lib/clipboardImport";
 import { copyRichText } from "./lib/copyRichText";
 import { parseArticle } from "./lib/parseArticle";
+import { applyLearnedTypes, learnBlockType } from "./lib/recognitionLearning";
+import type { LearnedBlockRule } from "./lib/recognitionLearning";
 import { blocksToPlainText, renderWechatHtml } from "./lib/renderWechatHtml";
 import { defaultTemplate, templates } from "./lib/templates";
 import type { ArticleBlock, BlockType } from "./types";
@@ -12,7 +14,8 @@ import "./styles.css";
 const storageKeys = {
   draft: "wechat-format-draft",
   template: "wechat-format-template",
-  overrides: "wechat-format-overrides"
+  overrides: "wechat-format-overrides",
+  learning: "wechat-format-learning"
 };
 
 const sampleArticle = `# 公众号排版效率提升指南
@@ -65,6 +68,14 @@ function loadOverrides(): Record<string, BlockType> {
     return JSON.parse(localStorage.getItem(storageKeys.overrides) ?? "{}");
   } catch {
     return {};
+  }
+}
+
+function loadLearningRules(): LearnedBlockRule[] {
+  try {
+    return JSON.parse(localStorage.getItem(storageKeys.learning) ?? "[]");
+  } catch {
+    return [];
   }
 }
 
@@ -145,10 +156,12 @@ function App() {
   const [draft, setDraft] = usePersistentState(storageKeys.draft, sampleArticle);
   const [templateId, setTemplateId] = usePersistentState(storageKeys.template, defaultTemplate.id);
   const [overrides, setOverrides] = useState<Record<string, BlockType>>(loadOverrides);
+  const [learningRules, setLearningRules] = useState<LearnedBlockRule[]>(loadLearningRules);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle");
 
   const parsedBlocks = useMemo(() => parseArticle(draft), [draft]);
-  const blocks = useMemo(() => applyOverrides(parsedBlocks, overrides), [parsedBlocks, overrides]);
+  const learnedBlocks = useMemo(() => applyLearnedTypes(parsedBlocks, learningRules), [parsedBlocks, learningRules]);
+  const blocks = useMemo(() => applyOverrides(learnedBlocks, overrides), [learnedBlocks, overrides]);
   const selectedTemplate = templates.find((template) => template.id === templateId) ?? defaultTemplate;
   const html = useMemo(() => renderWechatHtml(blocks, selectedTemplate), [blocks, selectedTemplate]);
   const plainText = useMemo(() => blocksToPlainText(blocks), [blocks]);
@@ -157,8 +170,13 @@ function App() {
     localStorage.setItem(storageKeys.overrides, JSON.stringify(overrides));
   }, [overrides]);
 
+  useEffect(() => {
+    localStorage.setItem(storageKeys.learning, JSON.stringify(learningRules));
+  }, [learningRules]);
+
   const updateBlockType = (block: ArticleBlock, type: BlockType) => {
     setOverrides((current) => ({ ...current, [block.id]: type }));
+    setLearningRules((current) => learnBlockType(current, block, type));
   };
 
   const handlePaste = async (event: ClipboardEvent<HTMLTextAreaElement>) => {
@@ -231,11 +249,18 @@ function App() {
           <div className="panelHeader">
             <div>
               <h2>结构识别</h2>
-              <span>{blocks.length} 个内容块</span>
+              <span>
+                {blocks.length} 个内容块 · 已学习 {learningRules.length} 条规则
+              </span>
             </div>
-            <button className="ghostButton compact" onClick={() => setOverrides({})}>
-              重置类型
-            </button>
+            <div className="headerActions">
+              <button className="ghostButton compact" onClick={() => setOverrides({})}>
+                重置类型
+              </button>
+              <button className="ghostButton compact" onClick={() => setLearningRules([])}>
+                清空学习
+              </button>
+            </div>
           </div>
           <div className="blockList">
             {blocks.length === 0 ? (
