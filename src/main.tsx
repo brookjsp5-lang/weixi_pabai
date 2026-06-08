@@ -158,6 +158,8 @@ function App() {
   const [overrides, setOverrides] = useState<Record<string, BlockType>>(loadOverrides);
   const [learningRules, setLearningRules] = useState<LearnedBlockRule[]>(loadLearningRules);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle");
+  const [isPreviewCollapsed, setIsPreviewCollapsed] = useState(false);
+  const [isStructureCollapsed, setIsStructureCollapsed] = useState(false);
 
   const parsedBlocks = useMemo(() => parseArticle(draft), [draft]);
   const learnedBlocks = useMemo(() => applyLearnedTypes(parsedBlocks, learningRules), [parsedBlocks, learningRules]);
@@ -245,7 +247,51 @@ function App() {
           />
         </section>
 
-        <section className="panel structurePanel">
+        <section className={`panel previewPanel ${isPreviewCollapsed ? "isCollapsed" : ""}`}>
+          <div className="panelHeader">
+            <div>
+              <h2>排版预览</h2>
+              <span>{selectedTemplate.name}</span>
+            </div>
+            <div className="headerActions">
+              <button
+                className="ghostButton compact"
+                onClick={() => setIsPreviewCollapsed((value) => !value)}
+                aria-expanded={!isPreviewCollapsed}
+              >
+                {isPreviewCollapsed ? "展开" : "收起"}
+              </button>
+              <button className="copyButton" onClick={handleCopy}>
+                {copyState === "copied" ? "已复制" : copyState === "error" ? "复制失败" : "复制富文本"}
+              </button>
+            </div>
+          </div>
+
+          {!isPreviewCollapsed && (
+            <>
+              <div className="templateGrid" aria-label="排版模板">
+                {templates.map((template) => (
+                  <button
+                    key={template.id}
+                    className={`templateButton ${template.id === selectedTemplate.id ? "selected" : ""}`}
+                    onClick={() => setTemplateId(template.id)}
+                    type="button"
+                  >
+                    <span className="templateSwatch" style={{ background: template.accent }} />
+                    <strong>{template.name}</strong>
+                    <small>{template.scenario}</small>
+                  </button>
+                ))}
+              </div>
+
+              <div className="phoneCanvas" style={{ background: selectedTemplate.previewBackground }}>
+                <div className="wechatPreview" dangerouslySetInnerHTML={{ __html: html }} />
+              </div>
+            </>
+          )}
+        </section>
+
+        <section className={`panel structurePanel ${isStructureCollapsed ? "isCollapsed" : ""}`}>
           <div className="panelHeader">
             <div>
               <h2>结构识别</h2>
@@ -254,6 +300,13 @@ function App() {
               </span>
             </div>
             <div className="headerActions">
+              <button
+                className="ghostButton compact"
+                onClick={() => setIsStructureCollapsed((value) => !value)}
+                aria-expanded={!isStructureCollapsed}
+              >
+                {isStructureCollapsed ? "展开" : "收起"}
+              </button>
               <button className="ghostButton compact" onClick={() => setOverrides({})}>
                 重置类型
               </button>
@@ -262,54 +315,25 @@ function App() {
               </button>
             </div>
           </div>
-          <div className="blockList">
-            {blocks.length === 0 ? (
-              <div className="emptyState">粘贴内容后会自动识别标题、正文、引用和列表。</div>
-            ) : (
-              blocks.map((block, index) => (
-                <article className="blockRow" key={block.id}>
-                  <div className="blockMeta">
-                    <span className="blockIndex">{String(index + 1).padStart(2, "0")}</span>
-                    <TypeSelect value={block.type} onChange={(type) => updateBlockType(block, type)} />
-                  </div>
-                  <p className="blockText">
-                    {block.type === "divider" ? "分割线" : block.content || block.items?.join(" / ")}
-                  </p>
-                </article>
-              ))
-            )}
-          </div>
-        </section>
-
-        <section className="panel previewPanel">
-          <div className="panelHeader">
-            <div>
-              <h2>排版预览</h2>
-              <span>{selectedTemplate.name}</span>
+          {!isStructureCollapsed && (
+            <div className="blockList">
+              {blocks.length === 0 ? (
+                <div className="emptyState">粘贴内容后会自动识别标题、正文、引用和列表。</div>
+              ) : (
+                blocks.map((block, index) => (
+                  <article className="blockRow" key={block.id}>
+                    <div className="blockMeta">
+                      <span className="blockIndex">{String(index + 1).padStart(2, "0")}</span>
+                      <TypeSelect value={block.type} onChange={(type) => updateBlockType(block, type)} />
+                    </div>
+                    <p className="blockText">
+                      {block.type === "divider" ? "分割线" : block.content || block.items?.join(" / ")}
+                    </p>
+                  </article>
+                ))
+              )}
             </div>
-            <button className="copyButton" onClick={handleCopy}>
-              {copyState === "copied" ? "已复制" : copyState === "error" ? "复制失败" : "复制富文本"}
-            </button>
-          </div>
-
-          <div className="templateGrid" aria-label="排版模板">
-            {templates.map((template) => (
-              <button
-                key={template.id}
-                className={`templateButton ${template.id === selectedTemplate.id ? "selected" : ""}`}
-                onClick={() => setTemplateId(template.id)}
-                type="button"
-              >
-                <span className="templateSwatch" style={{ background: template.accent }} />
-                <strong>{template.name}</strong>
-                <small>{template.scenario}</small>
-              </button>
-            ))}
-          </div>
-
-          <div className="phoneCanvas" style={{ background: selectedTemplate.previewBackground }}>
-            <div className="wechatPreview" dangerouslySetInnerHTML={{ __html: html }} />
-          </div>
+          )}
         </section>
       </section>
     </main>

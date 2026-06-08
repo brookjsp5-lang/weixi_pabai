@@ -58,7 +58,7 @@ button {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(300px, 1fr) minmax(360px, 1.35fr);
+  grid-template-columns: minmax(280px, 0.95fr) minmax(360px, 1.35fr) minmax(300px, 1fr);
   gap: 14px;
   max-width: 1760px;
   margin: 0 auto;
@@ -76,6 +76,15 @@ button {
   border-radius: 8px;
   background: #ffffff;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07);
+}
+
+.panel.isCollapsed {
+  align-self: start;
+  min-height: 0;
+}
+
+.panel.isCollapsed .panelHeader {
+  border-bottom: 0;
 }
 
 .panelHeader {
@@ -127,6 +136,8 @@ button {
 .headerActions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
